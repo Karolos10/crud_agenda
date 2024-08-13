@@ -2,6 +2,7 @@ package com.example.crud_agenda.service;
 
 import com.example.crud_agenda.dto.ContactDTO;
 import com.example.crud_agenda.entity.Contact;
+import com.example.crud_agenda.exception.ResourceNotFoundException;
 import com.example.crud_agenda.repository.ContactRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ContactService {
     };
 
     public Contact findById(Integer id){
-        return contactRepository.findById(id).orElse(null);
+        return contactRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
     };
 
     public Contact create(@RequestBody ContactDTO contactDTO){
