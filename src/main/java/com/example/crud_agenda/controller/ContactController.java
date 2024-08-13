@@ -6,6 +6,7 @@ import com.example.crud_agenda.service.ContactService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -32,12 +33,12 @@ public class ContactController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createContact")
-    public Contact create(@RequestBody ContactDTO contactDTO){
+    public Contact create(@Validated  @RequestBody ContactDTO contactDTO){
         return contactService.create(contactDTO);
     }
 
     @PutMapping("/updateContact/{id}")
-    public Contact update(@PathVariable Integer id, @RequestBody ContactDTO contactDTO){
+    public Contact update(@Validated @PathVariable Integer id, @RequestBody ContactDTO contactDTO){
 
         return contactService.update(id, contactDTO);
     };
