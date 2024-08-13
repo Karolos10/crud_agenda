@@ -1,5 +1,6 @@
 package com.example.crud_agenda.controller;
 
+import com.example.crud_agenda.dto.ContactDTO;
 import com.example.crud_agenda.entity.Contact;
 import com.example.crud_agenda.service.ContactService;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/contacts")
 public class ContactController {
@@ -30,14 +32,14 @@ public class ContactController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createContact")
-    public Contact create(@RequestBody Contact contact){
-        return contactService.create(contact);
+    public Contact create(@RequestBody ContactDTO contactDTO){
+        return contactService.create(contactDTO);
     }
 
     @PutMapping("/updateContact/{id}")
-    public Contact update(@PathVariable Integer id, @RequestBody Contact form){
+    public Contact update(@PathVariable Integer id, @RequestBody ContactDTO contactDTO){
 
-        return contactService.update(id, form);
+        return contactService.update(id, contactDTO);
     };
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

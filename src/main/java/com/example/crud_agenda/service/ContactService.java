@@ -1,8 +1,9 @@
 package com.example.crud_agenda.service;
 
+import com.example.crud_agenda.dto.ContactDTO;
 import com.example.crud_agenda.entity.Contact;
 import com.example.crud_agenda.repository.ContactRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,9 +13,12 @@ import java.time.LocalDateTime;
 public class ContactService {
 
     private final ContactRepository contactRepository;
+    private final ModelMapper mapper;
 
-    public ContactService(ContactRepository contactRepository) {
+
+    public ContactService(ContactRepository contactRepository, ModelMapper mapper) {
         this.contactRepository = contactRepository;
+        this.mapper = mapper;
     }
 
     public Iterable<Contact> findAll(){
@@ -25,16 +29,16 @@ public class ContactService {
         return contactRepository.findById(id).orElse(null);
     };
 
-    public Contact create(@RequestBody Contact contact){
+    public Contact create(@RequestBody ContactDTO contactDTO){
+        Contact contact = mapper.map(contactDTO, Contact.class);
         contact.setCreatedAt(LocalDateTime.now());
         return contactRepository.save(contact);
     };
 
-    public Contact update(Integer id, Contact form){
+    public Contact update(Integer id, ContactDTO contactDTO){
         Contact contacFromDB = findById(id);
 
-        contacFromDB.setName(form.getName());
-        contacFromDB.setEmail(form.getEmail());
+        mapper.map(contactDTO, contacFromDB);
 
         return contactRepository.save(contacFromDB);
     };
